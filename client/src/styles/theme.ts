@@ -10,6 +10,7 @@ export const color = {
   blue: '#1ABCFE',
   green: '#0ACF83',
   greenOpactiy30: 'rgba(10, 207, 131, 0.3)',
+  campGreen: '#27CA69',
   grayLight: '#FDFDFD',
   grayLightActive: '#F9F9F9',
   grayNormal: '#EBEBEB',
