@@ -24,7 +24,8 @@ export const LayoutStyle = styled.div`
   background-size: cover;
   background-position: center;
   opacity: 0.5;
-  z-index: -1000;
+  z-index: -1;
+  pointer-events: none;
 `;
 
 export const LayoutInnerStyle = styled.div`
@@ -35,6 +36,9 @@ export const LayoutInnerStyle = styled.div`
   width: 530px;
   height: 100%;
   background-color: white;
+  padding: 1rem 2rem;
+  z-index: 1;
+  pointer-events: auto;
   ${media.custom(1000)} {
     padding: 0 1rem;
     left: 50%;
