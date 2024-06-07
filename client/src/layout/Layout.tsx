@@ -5,7 +5,11 @@ interface LayoutProps {
 }
 
 const Layout = ({ children }: LayoutProps) => {
-  return <LayoutStyle>{children}</LayoutStyle>;
+  return (
+    <LayoutStyle>
+      {children}
+    </LayoutStyle>
+  );
 };
 
 export const LayoutStyle = styled.div`
