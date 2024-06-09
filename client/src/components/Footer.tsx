@@ -12,7 +12,7 @@ const data = [
   },
   {
     icon: <BsSearch size={20} />,
-    title: '캠핑장 검색',
+    title: '음식 검색',
   },
   {
     icon: <RiStore2Fill size={20} />,
@@ -20,7 +20,7 @@ const data = [
   },
   {
     icon: <PiNewspaperClippingBold size={20} />,
-    title: '캠핑 리뷰',
+    title: '음식 리뷰',
   },
   {
     icon: <FaRegUserCircle size={20} />,
@@ -51,6 +51,8 @@ const FooterStyle = styled.div`
   border-top: 2px solid ${({ theme }) => theme.color.grayNormalActive};
   background-color: ${({ theme }) => theme.color.white};
   font-family: 'Pretendard700';
+  background-color: transparent;
+  z-index: 2;
 `;
 
 const FooterIconContainer = styled.div`
@@ -59,6 +61,7 @@ const FooterIconContainer = styled.div`
   align-items: center;
   padding: 10px 0;
   cursor: pointer;
+  pointer-events: auto;
 
   p {
     margin-top: 5px;

@@ -9,6 +9,7 @@ interface LayoutProps {
 const Layout = ({ children }: LayoutProps) => {
   return (
     <LayoutStyle>
+      <BackgroundImage />
       <LayoutInnerStyle>
         {children}
       </LayoutInnerStyle>
@@ -20,18 +21,27 @@ export const LayoutStyle = styled.div`
   position: relative;
   width: 100%;
   height: 100vh;
+  overflow: hidden;
+`;
+
+export const BackgroundImage = styled.div`
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
   background-image: url(${backgroundImage});
   background-size: cover;
   background-position: center;
   opacity: 0.5;
-  z-index: -1;
   pointer-events: none;
-`;
+  z-index: -100;
+`
 
 export const LayoutInnerStyle = styled.div`
   position: absolute;
   top: 50%;
-  left: 65%;
+  left: 64%;
   transform: translate(-50%, -50%);
   width: 530px;
   height: 100%;
