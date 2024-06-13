@@ -1,12 +1,12 @@
 import Header from '@/components/Header';
-import MountainTrails from '@/components/MountainTrails';
+import Result from '@/components/Result';
 import styled from 'styled-components';
 
 const Main = () => {
   return (
     <MainStyle>
       <Header />
-      <MountainTrails />
+      <Result />
     </MainStyle>
   );
 };
