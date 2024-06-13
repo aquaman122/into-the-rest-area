@@ -3,7 +3,7 @@ import styled from 'styled-components';
 const Error = () => {
   return (
     <ErrorStyle>
-      
+      <div>error</div>
     </ErrorStyle>
   );
 };

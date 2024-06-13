@@ -5,6 +5,7 @@ import Main from "@/pages/Main";
 import Signup from "@/pages/Signup";
 import Layout from "@/layout/Layout";
 import Error from "@/pages/Error";
+import Footer from "@/components/Footer";
 
 const routeList = [
   {
@@ -25,7 +26,11 @@ export const router = createBrowserRouter(
   routeList.map((item) => {
     return {
       ...item,
-      element: <Layout>{item.element}</Layout>,
+      element: 
+      <Layout>
+        {item.element}
+        <Footer />
+      </Layout>,
       errorElement: (
         <Layout>
           <Error />
