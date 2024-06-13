@@ -5,6 +5,7 @@ import styled from 'styled-components';
 const Result = () => {
   const [file, setFile] = useState<File | null>(null);
   const [response, setResponse] = useState<string>("");
+  const [error, setError] = useState<string | null>(null);
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files) {
@@ -24,14 +25,15 @@ const Result = () => {
     formData.append('image', file);
 
     try {
-      const res = await axios.post(`${process.env.REACT_APP_API_URL}/upload`, formData, {
+      const res = await axios.post(`http://localhost:8081/upload`, formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },
       });
-      
+      console.log(res.data.content);
       setResponse(res.data.content);
-    } catch (error) {
+    } catch (error: any) {
+      setError("Error uploading the image: " + (error.response?.data.error || error.message));
       console.error("Error uploading the image:", error);
     }
   };
@@ -43,6 +45,12 @@ const Result = () => {
         <input type='file' onChange={handleFileChange} />
         <button type='submit'>Upload</button>
       </form>
+      {error && (
+        <div style={{ color: 'red' }}>
+          <h2>Error:</h2>
+          <p>{error}</p>
+        </div>
+      )}
       {response && (
         <div>
           <h2>Response:</h2>

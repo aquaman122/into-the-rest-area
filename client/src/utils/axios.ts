@@ -1,8 +1,9 @@
 import axios, { AxiosRequestConfig } from 'axios';
+import { SERVER_API_URL } from '../settings';
 
 export const createClient = (config: AxiosRequestConfig) => {
   const axiosInstance = axios.create({
-    baseURL: process.env.REACT_APP_MOCK_API_URL,
+    baseURL: SERVER_API_URL,
     headers: {
       'Content-Type': 'application/json',
     },
