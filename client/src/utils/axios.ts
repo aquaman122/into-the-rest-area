@@ -23,7 +23,7 @@ export const createClient = (config?: AxiosRequestConfig) => {
       return Promise.reject(error);
     }
   );
-
+  
   return axiosInstance;
 };
 

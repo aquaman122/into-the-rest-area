@@ -6,6 +6,7 @@ interface postUpload {
 }
 
 export const postUpload = async (data: postUpload) => {
+  console.log(httpClient.defaults.baseURL);
   const response = await httpClient.post(`${API_END_POINT.UPLOAD}` ,{ ...data });
   return response.data;
 }
