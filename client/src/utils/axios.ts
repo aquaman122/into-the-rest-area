@@ -1,9 +1,8 @@
 import axios, { AxiosRequestConfig } from 'axios';
-import { SERVER_API_URL } from '../settings';
 
-export const createClient = (config: AxiosRequestConfig) => {
+export const createClient = (config?: AxiosRequestConfig) => {
   const axiosInstance = axios.create({
-    baseURL: SERVER_API_URL,
+    baseURL: process.env.SERVER_API_URL,
     headers: {
       'Content-Type': 'application/json',
     },
@@ -26,6 +25,6 @@ export const createClient = (config: AxiosRequestConfig) => {
   );
 
   return axiosInstance;
-}
+};
 
-export const httpClient = createClient({});
+export const httpClient = createClient();

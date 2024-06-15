@@ -1,11 +1,23 @@
 import { useState } from 'react';
-import axios from 'axios';
 import styled from 'styled-components';
+import { useMutation } from '@tanstack/react-query';
+import { postUpload } from '@/api/result';
 
 const Result = () => {
   const [text, setText] = useState<string>("");
   const [response, setResponse] = useState<string>("");
   const [error, setError] = useState<string | null>(null);
+
+  const postUploadMutation = useMutation({
+    mutationFn: postUpload,
+    onSuccess: (data) => {
+      setResponse(data.content);
+    },
+    onError: (error) => {
+      setError("오류 발생: ");
+      console.error("오류 발생:", error);
+    },
+  });
 
   const handleTextChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setText(e.target.value);
@@ -20,10 +32,7 @@ const Result = () => {
     }
 
     try {
-      const res = await axios.post(`http://localhost:8081/upload`, { text }); // 주제 1. 뭐시기 뭐시기 입력해서 보내주고 받아오기
-
-      const data = res.data;
-      setResponse(data.content);
+      postUploadMutation.mutate({ text: text });
     } catch (error: any) {
       setError("오류 발생: " + (error.response?.data.error || error.message));
       console.error("오류 발생:", error);
