@@ -3,57 +3,49 @@ import axios from 'axios';
 import styled from 'styled-components';
 
 const Result = () => {
-  const [file, setFile] = useState<File | null>(null);
+  const [text, setText] = useState<string>("");
   const [response, setResponse] = useState<string>("");
   const [error, setError] = useState<string | null>(null);
 
-  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files) {
-      setFile(e.target.files[0]);
-    }
+  const handleTextChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    setText(e.target.value);
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    if (!file) {
-      alert('파일 먼저 업로드해주세요.');
+    if (!text) {
+      alert('텍스트를 입력해주세요.');
       return;
     }
 
-    const formData = new FormData();
-    formData.append('image', file);
-
     try {
-      const res = await axios.post(`http://localhost:8081/upload`, formData, {
-        headers: {
-          'Content-Type': 'multipart/form-data',
-        },
-      });
-      console.log(res.data.content);
-      setResponse(res.data.content);
+      const res = await axios.post(`http://localhost:8081/upload`, { text }); // 주제 1. 뭐시기 뭐시기 입력해서 보내주고 받아오기
+
+      const data = res.data;
+      setResponse(data.content);
     } catch (error: any) {
-      setError("Error uploading the image: " + (error.response?.data.error || error.message));
-      console.error("Error uploading the image:", error);
+      setError("오류 발생: " + (error.response?.data.error || error.message));
+      console.error("오류 발생:", error);
     }
   };
 
   return (
     <ResultStyle>
-      <h1>Image to GPT-3.5</h1>
+      <h1>텍스트를 입력하고 설명을 받아보세요</h1>
       <form onSubmit={handleSubmit}>
-        <input type='file' onChange={handleFileChange} />
-        <button type='submit'>Upload</button>
+        <textarea placeholder='텍스트를 입력하세요' onChange={handleTextChange} />
+        <button type='submit'>업로드</button>
       </form>
       {error && (
         <div style={{ color: 'red' }}>
-          <h2>Error:</h2>
+          <h2>오류:</h2>
           <p>{error}</p>
         </div>
       )}
       {response && (
         <div>
-          <h2>Response:</h2>
+          <h2>답변:</h2>
           <p>{response}</p>
         </div>
       )}

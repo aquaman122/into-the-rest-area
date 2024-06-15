@@ -1,58 +1,50 @@
 import express from 'express';
-import multer from 'multer';
 import axios from 'axios';
 import OpenAI from 'openai';
 import * as dotenv from 'dotenv';
 import cors from 'cors';
-import fs from 'fs';
-
 dotenv.config();
 
 const app = express();
 const port = process.env.PORT || 8081;
+const apiKey = process.env.OPENAI_API_KEY;
 
 app.use(express.json());
 app.use(cors({
-  origin: 'http://localhost:3001',
+  origin: ['http://localhost:3001', 'http://localhost:3000'],
   credentials: true,
 }));
 
 const openai = new OpenAI({
-  apiKey: process.env.OPENAI_API_KEY // This is also the default, can be omitted
+  apiKey: apiKey,
 });
 
-const upload = multer({ dest: 'uploads/' });
+app.post('/upload', async (req, res) => {
+  const { text } = req.body;
 
-app.post('/upload', upload.single('image'), async (req, res) => {
-  const imagePath = req.file?.path;
-  if (!imagePath) {
-    return res.status(400).json({ error: "No file uploaded" });
+  if (!text) {
+    return res.status(400).json({ error: "No text provided" });
   }
 
   try {
-    // 여기에 이미지 분석 로직 추가
-    // 예를 들어 OCR, 이미지 설명 등
-    const imageAnalysisResult = "이미지 분석 결과";
+    const prompt = `이 텍스트에 대해 3줄로 설명해줘: ${text}`;
 
-    const completion = await openai.chat.completions.create({
+    const response = await openai.chat.completions.create({
+      messages: [
+        { role: "user", content: prompt }
+      ],
       model: "gpt-3.5-turbo",
-      messages: [{ role: "user", content: imageAnalysisResult }],
     });
-    console.log('Completion:', JSON.stringify(completion, null, 2));
-    if (completion.data && completion.data.choices && completion.data.choices.length > 0) {
-      res.json({ content: completion.data.choices[0].message.content });
+    
+    if (response.choices[0].message.content) {
+      const completionText = response.choices[0].message.content;
+      res.json({ content: completionText });
     } else {
-      throw new Error('Failed to get completion');
+      throw new Error('OpenAI로부터 유효한 완성을 가져오지 못했습니다');
     }
   } catch (error) {
     console.error('Error:', error);
     res.status(500).json({ error: error.message });
-  } finally {
-    fs.unlink(imagePath, (err) => {
-      if (err) {
-        console.error('Failed to delete uploaded file:', err);
-      }
-    });
   }
 });
 
