@@ -1,31 +1,16 @@
-import { useState } from 'react';
 import styled from 'styled-components';
-import { useMutation } from '@tanstack/react-query';
-import { postUpload } from '@/api/result';
+import { useForm } from 'react-hook-form';
+import { useResult } from '@/hooks/result';
 
 const Result = () => {
-  const [text, setText] = useState<string>("");
-  const [response, setResponse] = useState<string>("");
-  const [error, setError] = useState<string | null>(null);
-
-  const postUploadMutation = useMutation({
-    mutationFn: postUpload,
-    onSuccess: (data) => {
-      setResponse(data.content);
-    },
-    onError: (error) => {
-      setError("오류 발생: ");
-      console.error("오류 발생:", error);
-    },
-  });
+  const { text, setText, postUploadMutation, response, error, setError } = useResult();
+  const { register, control, handleSubmit } = useForm();
 
   const handleTextChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setText(e.target.value);
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-
+  const onSubmit = async () => {
     if (!text) {
       alert('텍스트를 입력해주세요.');
       return;
@@ -42,7 +27,7 @@ const Result = () => {
   return (
     <ResultStyle>
       <h1>텍스트를 입력하고 설명을 받아보세요</h1>
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit(onSubmit)}>
         <textarea placeholder='텍스트를 입력하세요' onChange={handleTextChange} />
         <button type='submit'>업로드</button>
       </form>
