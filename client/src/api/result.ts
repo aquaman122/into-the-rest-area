@@ -1,12 +1,12 @@
 import { API_END_POINT } from "@/constants/api";
 import { httpClient } from "@/utils/axios";
 
-interface postUpload {
-  text: string;
+export const postUpload = async (data: { ingredients: string[] }) => {
+  const response = await httpClient.post(`${API_END_POINT.UPLOAD}` , data);
+  return response.data;
 }
 
-export const postUpload = async (data: postUpload) => {
-  console.log(httpClient.defaults.baseURL);
-  const response = await httpClient.post(`${API_END_POINT.UPLOAD}` ,{ ...data });
+export const fetchRecipe = async (data: { recipeIndex: number }) => {
+  const response = await httpClient.post(`${API_END_POINT.RECIPE}/${data.recipeIndex}`);
   return response.data;
 }

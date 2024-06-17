@@ -3,4 +3,5 @@ export const API_END_POINT = {
   LOGIN: '/auth/login',
   LOGOUT: '/auth/logout',
   UPLOAD: '/upload',
+  RECIPE: '/recipe',
 }
