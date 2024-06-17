@@ -20,14 +20,14 @@ const openai = new OpenAI({
 });
 
 app.post('/upload', async (req, res) => {
-  const { text } = req.body;
+  const { ingredients } = req.body;
 
-  if (!text) {
+  if (!ingredients) {
     return res.status(400).json({ error: "No text provided" });
   }
 
   try {
-    const prompt = `이 텍스트에 대해 3줄로 설명해줘: ${text}`;
+    const prompt = `다음 재료들을 사용하여 만들 수 있는 요리를 3가지 추천해줘: ${ingredients.join(', ')}`;
 
     const response = await openai.chat.completions.create({
       messages: [
@@ -39,6 +39,40 @@ app.post('/upload', async (req, res) => {
     if (response.choices[0].message.content) {
       const completionText = response.choices[0].message.content;
       res.json({ content: completionText });
+    } else {
+      throw new Error('OpenAI로부터 유효한 완성을 가져오지 못했습니다');
+    }
+  } catch (error) {
+    console.error('Error:', error);
+    res.status(500).json({ error: error.message });
+  }
+});
+
+app.post('/recipe/:recipeIndex', async (req, res) => {
+  const { recipeIndex } = req.params;
+
+  try {
+    const recipes = [
+      "레시피 1",
+      "레시피 2",
+      "레시피 3"
+    ];
+
+    const selectedRecipe = recipes[recipeIndex];
+
+    const prompt = `이 레시피에 대해 설명해주세요: ${selectedRecipe}`;
+
+    const response = await openai.chat.completions.create({
+      messages: [
+        { role: "user", content: prompt }
+      ],
+      model: "gpt-3.5-turbo",
+    });
+
+    if (response.choices && response.choices.length > 0 && response.choices[0].message && response.choices[0].message.content) {
+      const completionText = response.choices[0].message.content;
+
+      res.json({ recipe: `${selectedRecipe} 설명: ${completionText}` });
     } else {
       throw new Error('OpenAI로부터 유효한 완성을 가져오지 못했습니다');
     }
