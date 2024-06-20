@@ -24,7 +24,7 @@ export const getRecipeSuggestions = async (ingredients) => {
 };
 
 export const getRecipeExplanation = async (recipe) => {
-  const prompt = `이 레시피에 대해 설명해주세요: ${recipe}`;
+  const prompt = `이 레시피에 대해 간단하게 3줄로 설명해주세요: ${recipe}`;
   
   const response = await openai.chat.completions.create({
     messages: [{ role: "user", content: prompt }],
