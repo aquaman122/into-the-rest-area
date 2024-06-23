@@ -1,5 +1,4 @@
 # into-the-rest-area
-휴식 공간
 
 ### 문제 해결노트
 <details>
