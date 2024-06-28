@@ -25,10 +25,20 @@ export const getRecipeSuggestions = async (ingredients) => {
 
 export const getRecipeExplanation = async (recipe) => {
   const prompt = `이 레시피에 대해 간단하게 3줄로 설명해주세요: ${recipe}`;
+
+  const messages = [
+    { role: "system", content: "한국요리 레시피 설명을 요청합니다"},
+    { role: "user", content: prompt },
+    { role: "assistant", content: "한국요리 레시피 설명을 생성합니다"},
+    { role: "assistant", content: "한국요리 레시피 설명을 생성합니다"},
+  ]
   
   const response = await openai.chat.completions.create({
-    messages: [{ role: "user", content: prompt }],
     model: "gpt-3.5-turbo",
+    messages: messages,
+    max_tokens: 3250,
+    temperature: 0.3,
+    top_p: 1,
   });
   
   if (response.choices[0].message.content) {
