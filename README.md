@@ -32,3 +32,6 @@ response뒤에 data를 쓰지 않아도 되며 createChatCompletion은 위의 �
 <img width="530" alt="스크린샷 2024-06-18 오후 9 52 23" src="https://github.com/aquaman122/into-the-rest-area/assets/89385423/5eb8ee80-f3e7-4f41-a991-370d62c089f3">
 <img width="527" alt="스크린샷 2024-06-18 오후 9 52 39" src="https://github.com/aquaman122/into-the-rest-area/assets/89385423/4121acf9-b7a2-4732-9f34-6fadc7c472e1">
 
+#### 기술 스택
+Next js + Supabase
+
